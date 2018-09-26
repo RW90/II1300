@@ -14,10 +14,6 @@ task main(){
    
    ShortPause();
 
-   DriveToWall();
-   
-   ShortPause();
-
    TurnLeft90();
    
    ShortPause();
@@ -25,17 +21,25 @@ task main(){
    Drive250cm();
    
    ShortPause();
+   
+   FindWall();
+   
+   ShortPause();
+   
+   DriveToWall();
+   
+   ShortPause();
 
    DropBook();
 }
 
-void FindWall()[
+void FindWall(){
 
    int myarray[50];
    int i = 0;
    int small = 120;
 
-   While(1){
+   while(1){
 
          if(SensorUS(IN_4) < 55 && SensorUS(IN_4) > 40){
             myarray[i] = SensorUS(IN_4);
@@ -48,7 +52,7 @@ void FindWall()[
             OnFwd(OUT_C, 100);
             Wait(75);
             Off(OUT_BC);
-            break
+            break;
          }
          OnFwd(OUT_B, 100);
          OnFwd(OUT_C, -100);
@@ -67,7 +71,7 @@ void ShortPause(){
 
 void DriveToWall(){
 
-   while(SensorUS(IN_4) > 10){
+   while(SensorUS(IN_4) > 30){
       OnFwdReg(OUT_BC, 40, OUT_REGMODE_SPEED);
    }
 }
@@ -84,10 +88,10 @@ void Drive250cm(){
    OnFwd(OUT_C, 80);
    Wait(5000);
    OnFwdReg(OUT_BC, 85, OUT_REGMODE_SPEED);
-   Wait(5000);
+   Wait(3750);
 }
 
 void DropBook(){
      OnFwd(OUT_A, 100);
-     Wait(500);
+     Wait(300);
 }
