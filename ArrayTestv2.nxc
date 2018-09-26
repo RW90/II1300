@@ -1,0 +1,38 @@
+task main(){
+float myarray[20];
+float dist;
+
+SetSensorLowspeed(IN_4);
+         int i = 0;
+         
+Wait(2000);
+repeat(20){
+         myarray[i] = SensorUS(IN_4);
+         OnFwd(OUT_B, 50);
+         OnFwd(OUT_C, -50);
+         //Wait(150);
+         //Float(OUT_BC);
+         i = i + 1;
+         Wait(100);
+}
+Off(OUT_BC);
+float small;
+small = myarray[0];
+
+for(int j = 0; j < 20; j++){
+    if(myarray[j] < small){
+        small = myarray[j];
+    }
+}
+Wait(2000);
+//minvalue = ArrayMin(myarray, NA, NA);
+//while(abs(SensorUS(IN_4) - small) > 1){
+while(dist != small){
+    dist = SensorUS(IN_4);
+    OnFwd(OUT_B, 50);
+    OnFwd(OUT_C, -50);
+}
+Off(OUT_BC);
+
+
+}
