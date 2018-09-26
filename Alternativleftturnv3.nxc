@@ -1,0 +1,130 @@
+void DropBook();
+void FindWall();
+void DriveToWall();
+void TurnLeft90();
+void TurnRight90();
+void Drive250cm();
+void ShortPause();
+
+task main(){
+
+   SetSensorLowspeed(IN_4);
+   Wait(2000);
+
+   FindWall();
+   
+   ShortPause();
+
+   TurnLeft90();
+   
+   //TurnRight90();
+   
+   ShortPause();
+
+   Drive250cm();
+   
+   ShortPause();
+   
+   FindWall();
+   
+   ShortPause();
+   
+   DriveToWall();
+   
+   ShortPause();
+
+   DropBook();
+}
+
+void FindWall(){
+
+   int myarray[50];
+   int i = 0;
+   int small = 300;
+   int mysecondarray[50];
+   int j = 0;
+   while(1){
+
+         if(SensorUS(IN_4) < 220 && SensorUS(IN_4) > 40){
+            myarray[i] = SensorUS(IN_4);
+         }
+         else{
+            myarray[i] = 250;
+         }
+         if(myarray[i] > small){
+            /*OnFwd(OUT_B, -60);
+            OnFwd(OUT_C, 60);
+            Wait(200);
+            Off(OUT_BC);
+            */
+             //ny kod
+            small = 300;
+            while(1){
+               mysecondarray[j] = SensorUS(IN_4);
+               OnFwd(OUT_B, -60);
+               OnFwd(OUT_C, 60);
+               Wait(200);
+               Off(OUT_BC);
+               Wait(500);
+               if(mysecondarray[j] > small){
+                  OnFwd(OUT_B, 60);
+                  OnFwd(OUT_C, -60);
+                  Wait(400);
+                  Off(OUT_BC);
+                  Wait(500);
+                  break;
+               }
+              small = mysecondarray[j];
+              j = j + 1;
+            }
+            //slut ny kod
+            
+            break;
+            }
+         OnFwd(OUT_B, 60);
+         OnFwd(OUT_C, -60);
+         Wait(200);
+         Off(OUT_BC);
+         Wait(500);
+         small = myarray[i];
+         i = i + 1;
+   }
+}
+
+void ShortPause(){
+   Off(OUT_BC);
+   Wait(1000);
+}
+
+void DriveToWall(){
+
+   while(SensorUS(IN_4) > 30){
+      OnFwdReg(OUT_BC, 40, OUT_REGMODE_SPEED);
+   }
+}
+
+
+void TurnLeft90(){
+   OnFwd(OUT_B, 65);
+   OnFwd(OUT_C, -65);
+   Wait(650);
+}
+
+void TurnRight90(){
+   OnFwd(OUT_B, -65);
+   OnFwd(OUT_C, 65);
+   Wait(650);
+}
+
+void Drive250cm(){
+   OnFwd(OUT_B, 89);
+   OnFwd(OUT_C, 80);
+   Wait(9000);
+   //OnFwdReg(OUT_BC, 85, OUT_REGMODE_SPEED);
+   //Wait(3750);
+}
+
+void DropBook(){
+     OnFwd(OUT_A, 100);
+     Wait(150);
+}
