@@ -1,0 +1,61 @@
+void Drive250cmLeft();
+void Drive250cmRight();
+
+
+void Drive250cmLeft(){
+   repeat(5){
+      OnFwdReg(OUT_BC, 85, OUT_REGMODE_SPEED);
+      Wait(825);
+      Off(OUT_BC);
+      if(SensorUS(IN_4) < 40){
+         OnFwd(OUT_B, 65);
+         OnFwd(OUT_C, -65);
+         Wait(200);
+         Off(OUT_BC);
+         Wait(100);
+      }
+   }
+   FindWallRight();
+   TurnLeft90();
+   repeat(5){
+      OnFwdReg(OUT_BC, 85, OUT_REGMODE_SPEED);
+      Wait(825);
+      Off(OUT_BC);
+      if(SensorUS(IN_4) < 40){
+         OnFwd(OUT_B, 65);
+         OnFwd(OUT_C, -65);
+         Wait(200);
+         Off(OUT_BC);
+         Wait(100);
+      }
+   }
+}
+
+void Drive250cmRight(){
+   repeat(5){
+      OnFwdReg(OUT_BC, 85, OUT_REGMODE_SPEED);
+      Wait(825);
+      Off(OUT_BC);
+      if(SensorUS(IN_4) < 40){
+         OnFwd(OUT_B, -65);
+         OnFwd(OUT_C, 65);
+         Wait(200);
+         Off(OUT_BC);
+         Wait(100);
+      }
+   }
+   FindWallLeft();
+   TurnRight90();
+   repeat(5){
+      OnFwdReg(OUT_BC, 85, OUT_REGMODE_SPEED);
+      Wait(825);
+      Off(OUT_BC);
+      if(SensorUS(IN_4) < 40){
+         OnFwd(OUT_B, -65);
+         OnFwd(OUT_C, 65);
+         Wait(200);
+         Off(OUT_BC);
+         Wait(100);
+      }
+   }
+}
