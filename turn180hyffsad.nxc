@@ -48,22 +48,23 @@ void ShortPause(){
 
 void DriveToWall(){
 
-   while(SensorUS(IN_4) > 30){
-      OnFwdReg(OUT_BC, 40, OUT_REGMODE_SPEED);
+   while(SensorUS(IN_4) > 40){
+      OnFwdReg(OUT_BC, 70, OUT_REGMODE_SPEED);
    }
+   Off(OUT_BC);
 }
 
 
 void TurnLeft90(){
    OnFwd(OUT_B, 65);
    OnFwd(OUT_C, -65);
-   Wait(700);
+   Wait(480);
 }
 
 void TurnRight90(){
    OnFwd(OUT_B, -65);
    OnFwd(OUT_C, 65);
-   Wait(700);
+   Wait(480);
 }
 
 void Drive250cm(){
@@ -73,13 +74,14 @@ void Drive250cm(){
 
 void DropBook(){
      OnFwd(OUT_A, 100);
-     Wait(300);
+     Wait(550);
+     Off(OUT_A);
 }
 
 void Turn180(){
    OnFwd(OUT_B, 65);
    OnFwd(OUT_C, -65);
-   Wait(1450);
+   Wait(1000);
    Off(OUT_BC);
 }
 
@@ -128,7 +130,7 @@ void FindWallRight(){
       if(mysecondarray[j] > small){
          OnFwd(OUT_B, 100);
          OnFwd(OUT_C, -100);
-         Wait(250);
+         Wait(180);
          Off(OUT_BC);
          Wait(500);
          break;
@@ -143,7 +145,7 @@ void Drive250cmLeft(){
       OnFwdReg(OUT_BC, 85, OUT_REGMODE_SPEED);
       Wait(825);
       Off(OUT_BC);
-      if(SensorUS(IN_4) < 80){
+      if(SensorUS(IN_4) < 240){
          OnFwd(OUT_B, 65);
          OnFwd(OUT_C, -65);
          Wait(200);
@@ -152,12 +154,14 @@ void Drive250cmLeft(){
       }
    }
    FindWallRight();
+   DriveToWall();
+   ShortPause();
    TurnLeft90();
    repeat(6){
       OnFwdReg(OUT_BC, 85, OUT_REGMODE_SPEED);
       Wait(825);
       Off(OUT_BC);
-      if(SensorUS(IN_4) < 80){
+      if(SensorUS(IN_4) < 240){
          OnFwd(OUT_B, 65);
          OnFwd(OUT_C, -65);
          Wait(200);
@@ -172,7 +176,7 @@ void Drive250cmRight(){
       OnFwdReg(OUT_BC, 85, OUT_REGMODE_SPEED);
       Wait(825);
       Off(OUT_BC);
-      if(SensorUS(IN_4) < 80){
+      if(SensorUS(IN_4) < 240){
          OnFwd(OUT_B, -65);
          OnFwd(OUT_C, 65);
          Wait(200);
@@ -181,12 +185,14 @@ void Drive250cmRight(){
       }
    }
    FindWallLeft();
+   DriveToWall();
+   ShortPause();
    TurnRight90();
    repeat(6){
       OnFwdReg(OUT_BC, 85, OUT_REGMODE_SPEED);
       Wait(825);
       Off(OUT_BC);
-      if(SensorUS(IN_4) < 80){
+      if(SensorUS(IN_4) < 240){
          OnFwd(OUT_B, -65);
          OnFwd(OUT_C, 65);
          Wait(200);
