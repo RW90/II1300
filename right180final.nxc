@@ -1,0 +1,223 @@
+void Turn180();
+void DropBook();
+void FindWallLeft();            // Skriv #include "FindWallFunction.nxc" f�r att inkludera dessa fina funktioner i ditt nxc-program!
+void FindWallRight();
+void Drive250cmLeft();
+void Drive250cmRight();
+void DriveToWall();
+void TurnLeft90();
+void TurnRight90();
+void Drive250cm();
+void ShortPause();
+void DriveToWallFinal();
+
+
+task main(){
+
+   SetSensorLowspeed(IN_4);
+   Wait(2000);
+
+   FindWallLeft();
+   FindWallRight();
+
+   ShortPause();
+
+   TurnRight90();
+
+   ShortPause();
+
+   Drive250cmRight();
+
+   ShortPause();
+
+   FindWallLeft();
+   FindWallRight();
+
+   ShortPause();
+
+   Turn180();
+
+   ShortPause();
+
+   DriveToWallFinal();
+
+   DropBook();
+}
+
+void ShortPause(){
+   Off(OUT_BC);
+   Wait(1000);
+}
+
+void DriveToWall(){
+   if(SensorUS(IN_4) > 40){
+       while(SensorUS(IN_4) > 40){
+          OnFwdReg(OUT_BC, 70, OUT_REGMODE_SPEED);
+       }
+   }
+   else{
+      while(SensorUS(IN_4) < 40){
+          OnFwdReg(OUT_BC, -70, OUT_REGMODE_SPEED);
+       }
+   }
+   Off(OUT_BC);
+}
+
+void DriveToWallFinal(){
+
+   while(SensorUS(IN_4) > 30){
+      OnFwdReg(OUT_BC, 70, OUT_REGMODE_SPEED);
+   }
+   Off(OUT_BC);
+}
+
+void TurnLeft90(){
+   OnFwd(OUT_B, 65);
+   OnFwd(OUT_C, -65);
+   Wait(480);
+}
+
+void TurnRight90(){
+   OnFwd(OUT_B, -65);
+   OnFwd(OUT_C, 65);
+   Wait(620);
+}
+
+void Drive250cm(){
+   OnFwdReg(OUT_BC, 85, OUT_REGMODE_SPEED);
+   Wait(8100);
+}
+
+void DropBook(){
+     OnFwd(OUT_A, 100);
+     Wait(550);
+     Off(OUT_A);
+}
+
+void Turn180(){
+   OnFwd(OUT_B, 65);
+   OnFwd(OUT_C, -65);
+   Wait(1050);
+   Off(OUT_BC);
+}
+
+void FindWallLeft(){
+
+   int myarray[50];
+   int i = 0;
+   int small = 300;
+   while(1){
+
+         if(SensorUS(IN_4) < 150){                    // TOG BORT HYFFSNINGEN P� KORTA RESULTAT: DETTA KAN SP�RA
+            myarray[i] = SensorUS(IN_4);
+         }
+         else{
+            myarray[i] = 300;
+         }
+         if(myarray[i] > small){
+             OnFwd(OUT_B, -100);
+             OnFwd(OUT_C, 100);
+             Wait(130);
+             Off(OUT_BC);
+            break;
+            }
+         OnFwd(OUT_B, 100);
+         OnFwd(OUT_C, -100);
+         Wait(100);
+         Off(OUT_BC);
+         Wait(500);
+         small = myarray[i];
+         i = i + 1;
+   }
+}
+void FindWallRight(){
+
+   int mysecondarray[50];
+   int j = 0;
+   int small = 300;
+   while(1){
+      if(SensorUS(IN_4) < 150){
+         mysecondarray[j] = SensorUS(IN_4);
+      }
+      else{
+         mysecondarray[j] = 300;
+      }
+      OnFwd(OUT_B, -100);
+      OnFwd(OUT_C, 100);
+      Wait(100);
+      Off(OUT_BC);
+      Wait(500);
+      if(mysecondarray[j] > small){
+         OnFwd(OUT_B, 100);
+         OnFwd(OUT_C, -100);
+         Wait(180);
+         Off(OUT_BC);
+         Wait(500);
+         break;
+      }
+      small = mysecondarray[j];
+      j = j + 1;
+   }
+}
+
+void Drive250cmLeft(){
+   repeat(5){
+      OnFwdReg(OUT_BC, 85, OUT_REGMODE_SPEED);
+      Wait(825);
+      Off(OUT_BC);
+      if(SensorUS(IN_4) < 240){
+         OnFwd(OUT_B, 65);
+         OnFwd(OUT_C, -65);
+         Wait(200);
+         Off(OUT_BC);
+         Wait(100);
+      }
+   }
+   FindWallRight();
+   DriveToWall();
+   ShortPause();
+   TurnLeft90();
+   repeat(6){
+      OnFwdReg(OUT_BC, 85, OUT_REGMODE_SPEED);
+      Wait(825);
+      Off(OUT_BC);
+      if(SensorUS(IN_4) < 240){
+         OnFwd(OUT_B, 65);
+         OnFwd(OUT_C, -65);
+         Wait(200);
+         Off(OUT_BC);
+         Wait(100);
+      }
+   }
+}
+
+void Drive250cmRight(){
+   repeat(5){
+      OnFwdReg(OUT_BC, 85, OUT_REGMODE_SPEED);
+      Wait(825);
+      Off(OUT_BC);
+      if(SensorUS(IN_4) < 240){
+         OnFwd(OUT_B, -65);
+         OnFwd(OUT_C, 65);
+         Wait(200);
+         Off(OUT_BC);
+         Wait(100);
+      }
+   }
+   FindWallLeft();
+   DriveToWall();
+   ShortPause();
+   TurnRight90();
+   repeat(6){
+      OnFwdReg(OUT_BC, 85, OUT_REGMODE_SPEED);
+      Wait(825);
+      Off(OUT_BC);
+      if(SensorUS(IN_4) < 240){
+         OnFwd(OUT_B, -65);
+         OnFwd(OUT_C, 65);
+         Wait(200);
+         Off(OUT_BC);
+         Wait(100);
+      }
+   }
+}
